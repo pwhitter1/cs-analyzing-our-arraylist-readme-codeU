@@ -1,7 +1,7 @@
 # cs-analyzing-our-arraylist-readme
 
 ## learning goals
-https://github.com/learn-co-curriculum/cs-implementing-an-arraylist-lab
+Students can analyze constant and linear time algorithms, including amortized cost.
 
 ## notes
 Discussing Amortized time
