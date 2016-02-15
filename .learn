@@ -1,6 +1,8 @@
 tags:
-  - a tag
+  - Analysis of algorithms
+  - ArrayList
+  - Amortized analysis
 languages:
-  - a language
+  - Java
 resources: 
-  - 0
+  - 1
