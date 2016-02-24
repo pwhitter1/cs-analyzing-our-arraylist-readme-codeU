@@ -71,7 +71,7 @@ This method invokes `target.equals`; the runtime of this method might depend on 
 
 Getting back to `indexOf`, everything inside the loop is constant time, so the next question we have to consider is: how many times does the loop execute?
 
-If we get lucky, we might find the target object right away and return after testing only one element.  If we are unlucky, we might have to test all of the elements.  On average we expect to test half of the elements, so this method is considered linear except in the (unlikely) case that we know the target element is at the beginning of the array.
+If we get lucky, we might find the target object right away and return after testing only one element.  If we are unlucky, we might have to test all of the elements.  On average, we expect to test half of the elements, so this method is considered linear except in the (unlikely) case that we know the target element is at the beginning of the array.
 
 The analysis of `remove` is similar.  Here's my implementation:
 
@@ -111,10 +111,9 @@ In the previous lab, you wrote a version of `add` that takes an index and an ele
 	}
 ```
 
-This version of `add` uses the other version of `add`, which puts the new element at the end.  Then it shifts the other elements to the right, and puts the new element in the right place.
+This two-parameter version, which we'll call `add(int, E)`, uses the one-parameter version, which we'll call `add(E)`, to put the new element at the end.  Then it shifts the other elements to the right, and puts the new element in the correct place.
 
-To distinguish the two versions, I'll call them `add(E)` and `add(int, E)`.
-Before we can classify `add(int, E)`, we have to classify `add(E)`:
+Before we can classify the two-parameter `add(int, E)`, we have to classify the one-parameter `add(E)`:
 
 ```java
 	public boolean add(E e) {
@@ -130,9 +129,9 @@ Before we can classify `add(int, E)`, we have to classify `add(E)`:
 	}
 ```
 
-This version turns out to be hard to analyze.  If there is an unused spaces in the array it is constant time, but if we have to resize the array, it's linear.  So which is it?
+This one-parameter version turns out to be hard to analyze.  If there is an unused space in the array, it is constant time; but if we have to resize the array, it's linear.  So which is it?
 
-We can classify this method by thinking about the average number of operations per add over a series of n adds.
+We can classify this method by thinking about the average number of operations per add over a series of `n` adds.
 For simplicity, assume we start with an array that has room for 2 elements.
 
 * The first time we call add, it finds unused space in the array, so it stores 1 element.
@@ -150,9 +149,11 @@ And so on.  Adding things up:
 * After 8 adds, we've stored 8 elements and copied 6.
 * After 16 adds, we've stored 16 elements and copied 14.
 
-By now you should see the pattern: to do n adds, we have to store n elements and copy n-2.  So the total number of operations is 2n-2.  To get the average number of operations per add, we dividing the total by n; the result is 2 - 2/n, which means we can think of `add` as constant time.  
+By now you should see the pattern: to do `n` adds, we have to store `n` elements and copy `n-2`.  So the total number of operations is `n + n - 2`, which is `2n-2`.
 
-If might seem strange that an algorithm that is sometimes linear can be constant time, on average.  The key is that we double the length of the array each time it gets resized.  That limits the number of times each element gets copied.  Otherwise — if we add a fixed amount to the length of the array, rather than multiplying by a fixed amount — the analysis doesn't work.
+To get the average number of operations per add, we divide the total by `n`; the result is `2 - 2/n`.  As `n` gets big, the second term, `2/n`, gets small.  Invoking the principle that we only care about the largest exponent of `n`, we can think of `add` as constant time.  
+
+It might seem strange that an algorithm that is sometimes linear can be constant time, on average.  The key is that we double the length of the array each time it gets resized.  That limits the number of times each element gets copied.  Otherwise — if we add a fixed amount to the length of the array, rather than multiplying by a fixed amount — the analysis doesn't work.
 
 This way of classifying an algorithm, by computing the average time in a series of invocations, is called [amortized analysis](https://en.wikipedia.org/wiki/Amortized_analysis).  The idea is that the extra cost of copying the array is spread, or "amortized", over a series of invocations.
 
@@ -177,9 +178,9 @@ The last example we'll consider is `removeAll`; here's the implementation in `My
 
 Each time through the loop, `removeAll` invokes `remove`, which is linear.  So it is tempting to think that `removeAll` is quadratic.  But that's not necessarily the case.
 
-In this method, the loop runs once for each element in the Collection `c`.  If `c` contains m elements and the list contains `n` elements, this method is in O(nm).  If the size of the collection can be considered constant, `removeAll` is linear.  But if the size of the collection is proportional to n, it's quadratic.  For example, if `c` always contains 100 or fewer elements, `removeAll` is linear.  But if `c` generally contains 1% of the elements in the list, `removeAll` is quadratic.
+In this method, the loop runs once for each element in the Collection `c`.  If `c` contains m elements and the list we are removing from contains `n` elements, this method is in O(nm).  If the size of the collection can be considered constant, `removeAll` is linear.  But if the size of the collection is proportional to n, it's quadratic.  For example, if `c` always contains 100 or fewer elements, `removeAll` is linear.  But if `c` generally contains 1% of the elements in the list, `removeAll` is quadratic.
 
-Sometimes when we talk about "problem size" we have to be careful about which size, or sizes, we are talking about.
+Sometimes when we talk about "problem size" we have to be careful about which size, or sizes, we are talking about.  This example demonstrates a pitfall of algorithm analysis, which is the tendency to count loops.  If there is one loop, the algorithm is *often* linear.  If there are two loops (one nested inside the other), the algorithm is *often* quadratic.  But be careful!  You have to think about how many times each loop runs.  If the number of iterations is proportional to `n`, you can get away with just counting the loops.  But if, as in this example, the number of iterations does not depend on `n`, you have to give it more thought.
 
 
 ## Resources
