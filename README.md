@@ -77,12 +77,12 @@ The analysis of `remove` is similar.  Here's my implementation:
 
 ```java
 	public E remove(int index) {
-		E e = get(index);
+		E element = get(index);
 		for (int i=index; i<size-1; i++) {
 			array[i] = array[i+1];
 		}
 		size--;
-		return e;
+		return element;
 	}
 ```
 
@@ -116,14 +116,14 @@ This two-parameter version, which we'll call `add(int, E)`, uses the one-paramet
 Before we can classify the two-parameter `add(int, E)`, we have to classify the one-parameter `add(E)`:
 
 ```java
-	public boolean add(E e) {
+	public boolean add(E element) {
 		if (size >= array.length) {
 			// make a bigger array and copy over the elements
 			E[] bigger = (E[]) new Object[array.length * 2];
 			System.arraycopy(array, 0, bigger, 0, array.length);
 			array = bigger;
 		} 
-		array[size] = e;
+		array[size] = element;
 		size++;
 		return true;
 	}
@@ -167,10 +167,10 @@ This is an example of a tricky API, where two methods that seem similar have qua
 The last example we'll consider is `removeAll`; here's the implementation in `MyArrayList`:
 
 ```java
-	public boolean removeAll(Collection<?> c) {
+	public boolean removeAll(Collection<?> collection) {
 		boolean flag = true;
-		for (Object o: c) {
-			flag &= remove(o);
+		for (Object obj: collection) {
+			flag &= remove(obj);
 		}
 		return flag;
 	}
