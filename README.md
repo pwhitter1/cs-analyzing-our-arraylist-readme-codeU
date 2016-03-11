@@ -8,7 +8,7 @@ This README kills two birds with one stone: we present solutions to the previous
 
 ## Objectives
 
-1.  Read and understand solutions to the previous lab.
+1.  Read and understand solutions to **Implementing an ArrayList** lab. 
 2.  Classify the methods in `MyArrayList`.
 3.  Use amortized analysis to classify appropriate algorithms.
 
@@ -28,7 +28,7 @@ For many methods, we can identify the order of growth by examining the code.  Fo
 
 Everything in `get` is constant time, so `get` is constant time.  No problem.
 
-Now that we've classified `get`, we can classify `set`, which uses it.  Here is my implementation of `set` from the previous lab:
+Now that we've classified `get`, we can classify `set`, which uses it.  Here is our implementation of `set` from the previous lab:
 
 ```java
 	public E set(int index, E element) {
@@ -73,7 +73,7 @@ Getting back to `indexOf`, everything inside the loop is constant time, so the n
 
 If we get lucky, we might find the target object right away and return after testing only one element.  If we are unlucky, we might have to test all of the elements.  On average, we expect to test half of the elements, so this method is considered linear except in the (unlikely) case that we know the target element is at the beginning of the array.
 
-The analysis of `remove` is similar.  Here's my implementation:
+The analysis of `remove` is similar.  Here's our implementation:
 
 ```java
 	public E remove(int index) {
@@ -92,7 +92,7 @@ It uses `get`, which is constant time, and then loops through the array, startin
 
 ## Classifying `add`
 
-In the previous lab, you wrote a version of `add` that takes an index and an element as parameters.  Here's my solution:
+In the previous lab, you wrote a version of `add` that takes an index and an element as parameters.  Here's our solution:
 
 ```java
 	public void add(int index, E element) {
@@ -129,7 +129,7 @@ Before we can classify the two-parameter `add(int, E)`, we have to classify the 
 	}
 ```
 
-This one-parameter version turns out to be hard to analyze.  If there is an unused space in the array, it is constant time; but if we have to resize the array, it's linear.  So which is it?
+This one-parameter version turns out to be hard to analyze.  If there is an unused space in the array, it is constant time, but if we have to resize the array, it's linear.  So which is it?
 
 We can classify this method by thinking about the average number of operations per add over a series of `n` adds.
 For simplicity, assume we start with an array that has room for 2 elements.
