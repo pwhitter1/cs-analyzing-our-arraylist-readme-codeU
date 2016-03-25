@@ -40,7 +40,7 @@ Now that we've classified `get`, we can classify `set`, which uses it.  Here is 
 
 One slightly clever part of this solution is that it does not check the bounds of the array explicitly; it takes advantage of `get`, which raises an exception if the index is invalid.
 
-Everything in `set`, including the invocation of `get`, is constant time, so `get` is also constant time.
+Everything in `set`, including the invocation of `get`, is constant time, so `set` is also constant time.
 
 Next we'll look at some linear methods.  For example, here's my implementation of `indexOf`:
 
